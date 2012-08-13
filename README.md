@@ -3,8 +3,9 @@ BinXPerience
 
 Ever want to: 
  - SEE the hidden secerts of a binary file in tacky 8-bit colour?
- - HEAR the song of your compiler's fruit?
- - IMPRESS your friends through debugging/disassembling by COLOR patterns and/or by EAR
+ - HEAR the song of your compiler?
+ - DISCOVER the awesomeness of -03 through your senses
+ - IMPRESS your friends by debugging/disassembling applications by COLOR patterns and/or by EAR
  - TROLL your local development, QA or debug team ?
 
 If so, BinXPerience is for you! 
