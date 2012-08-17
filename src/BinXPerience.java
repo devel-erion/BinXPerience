@@ -14,6 +14,14 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
 import javax.swing.*;
 
+import java.util.Arrays;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
+
 public class BinXPerience extends Canvas 
 {
 	private static final int BUFFER_SIZE = 3;
@@ -30,10 +38,42 @@ public class BinXPerience extends Canvas
 	public static void main(String[] args) throws InterruptedException
 	{ 			
 
+		System.out.println("Command Args: "+ Arrays.toString(args) );
+		
+		// create the command line parser
+		CommandLineParser parser = new PosixParser();
+		CommandLine line = null ;
+		// create the Options
+		Options options = new Options();
+		options.addOption( "b", "binary", true, "binary source to read" );
+		options.addOption( "w", "window-width", true, "width of the window" );
+		options.addOption( "h", "window-height", true, "height of the window" );
+		options.addOption( "bs", "block-size", true, "block size ");
+		
+		// create the parser
+	    try {
+	        // parse the command line arguments
+	        line = parser.parse( options, args );
+	        if (line.hasOption("b")){
+	        	System.out.println("Binary="+ line.getOptionValue("b") );
+	        }
+	        if (line.hasOption("bs")){
+	        	System.out.println( "Block size="+ line.getOptionValue("bs") );
+	        }
+	        System.out.println( "Window Size is "+ line.getOptionValue("w") +" x "+ line.getOptionValue("h") );
+	    }
+	    catch( ParseException exp ) {
+	        // oops, something went wrong
+	        System.err.println( "Parsing failed.  Reason: " + exp.getMessage() );
+	    }
+		
+	    String fileName=line.getOptionValue("b");
+		
 		BinXPerience canvas = new BinXPerience();
 		// Configuring drawing parameters
-		int max_width=450; int max_height=450;
-		int rect_size=3;
+		int max_width=Integer.parseInt(line.getOptionValue("w")); 
+		int max_height=Integer.parseInt(line.getOptionValue("h"));
+		int rect_size=Integer.parseInt(line.getOptionValue("bs"));
 		
 		// Setting up Window for display
 		JFrame frame = new JFrame();
@@ -56,9 +96,6 @@ public class BinXPerience extends Canvas
 				Instrument[]        instr = synth.getDefaultSoundbank().getInstruments();
 				synth.loadInstrument(instr[76]);  // Bottle Blow
 
-
-				String fileName="C:\\eclipse\\eclipse.exe";
-				fileName="C:\\Program Files (x86)\\Microsoft Office\\Office14\\Excel.exe";
 				in = new BufferedInputStream(new FileInputStream(fileName));				
 				try 
 				{
